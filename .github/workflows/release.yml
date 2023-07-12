@@ -17,8 +17,9 @@ jobs:
           cache: 'npm'
       - run: npm ci
       - run: |
-          npm install conventional-changelog-conventionalcommits
-          npm install commitlint@latest
+          npm install -D conventional-changelog-conventionalcommits
+          npm install -D commitlint@latest
+          npm install @commitlint/cli @commitlint/config-conventional -D
       
       - run: npm run test-ci
       - name: Archive code coverage results
