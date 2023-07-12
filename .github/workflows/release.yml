@@ -16,6 +16,13 @@ jobs:
           node-version: '16.20.1'
           cache: 'npm'
       - run: npm ci
+      - run: |
+          npm install -D conventional-changelog-conventionalcommits
+          npm install -D commitlint@latest
+          npm install @commitlint/cli @commitlint/config-conventional -D
+          npx husky install
+          npm set-script prepare "husky install"
+          npx husky add .husky/commit-msg "npx --no -- commitlint --edit $1"
       - run: npm run test-ci
       - name: Archive code coverage results
         uses: actions/upload-artifact@v3
