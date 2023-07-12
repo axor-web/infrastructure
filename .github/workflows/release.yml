@@ -16,27 +16,17 @@ jobs:
           node-version: '16.20.1'
           cache: 'npm'
       - run: npm ci
-      - run: |
-          npm install -D conventional-changelog-conventionalcommits
-          npm install -D commitlint@latest
-          npm install @commitlint/cli @commitlint/config-conventional -D
-          npx husky install
-          npm set-script prepare "husky install"
-          npx husky add .husky/commit-msg "npx --no -- commitlint --edit $1"
       - run: npm run test-ci
       - name: Archive code coverage results
         uses: actions/upload-artifact@v3
         with:
           name: test-report
           path: test-report.html
-      - name: Validate commit from PR
-        uses: actions/checkout@v3
+          
+  commitlint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - name: Validate current commit (last commit) with commitlint
-        if: github.event_name == 'push'
-        run: npx commitlint --from HEAD~1 --to HEAD --verbose
-
-      - name: Validate PR commits with commitlint
-        if: github.event_name == 'pull_request'
-        run: npx commitlint --from ${{ github.event.pull_request.head.sha }}~${{ github.event.pull_request.commits }} --to ${{ github.event.pull_request.head.sha }} --verbose
+      - uses: wagoid/commitlint-github-action@v4
