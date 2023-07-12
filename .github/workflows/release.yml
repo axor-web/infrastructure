@@ -16,7 +16,10 @@ jobs:
           node-version: '16.20.1'
           cache: 'npm'
       - run: npm ci
-      - run: npx playwright install
+      - run: |
+          npm install conventional-changelog-conventionalcommits
+          npm install commitlint@latest
+      
       - run: npm run test-ci
       - name: Archive code coverage results
         uses: actions/upload-artifact@v3
