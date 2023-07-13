@@ -55,10 +55,10 @@ jobs:
 
       - name: Update CHANGELOG
         id: changelog
-        uses: requarks/changelog-action@v1
+        uses: scottbrenner/generate-changelog-action@master
         with:
-          token: ${{ github.token }}
-          tag: ${{ github.ref_name }}
+          package-dir: 'root/to/my/package.json'
+        
       - name: Commit CHANGELOG.md
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
