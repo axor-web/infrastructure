@@ -7,9 +7,11 @@ on:
     branches: master
     tags: 
       - 'v\d+'
+      
 permissions:
   contents: read
   issues: write
+
 jobs:
   install_and_test:
     runs-on: ubuntu-latest
@@ -71,7 +73,7 @@ jobs:
               repo: context.repo.repo,
               labels: ["RELEASE"]
             })
-      
+
       - if: needs.install_and_test.outputs.exitcode == 0
         name: Close Issue
         run: gh issue close --comment "Auto-closing issue"
