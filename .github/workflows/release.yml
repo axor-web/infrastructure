@@ -51,7 +51,7 @@ jobs:
     steps:
       - name: Get tag
         id: tag
-        uses: dawidd6/action-get-tag@v1
+        uses: little-core-labs/get-git-tag@v3.0.1
       - name: Create Release Issue
         uses: dacbd/create-issue-action@main
         with:
