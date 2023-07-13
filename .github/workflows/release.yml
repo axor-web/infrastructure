@@ -93,13 +93,13 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      - name: Run Changelog CI
-        uses: saadmk11/changelog-ci@v1.1.1
+      - name: Update CHANGELOG
+        id: changelog
+        uses: requarks/changelog-action@v1
         with:
-          changelog_filename: CHANGELOG.md
-          committer_username: 'bot'
-          release_version: ${{ github.ref_name }}
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ github.token }}
+          tag: ${{ github.ref_name }}
+          writeToFile: true
       
       - name: Commit CHANGELOG.md
         uses: stefanzweifel/git-auto-commit-action@v4
