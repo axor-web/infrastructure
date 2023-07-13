@@ -49,6 +49,9 @@ jobs:
     runs-on: ubuntu-latest
     needs: [ install_and_test ]
     steps:
+      - name: Get tag
+        id: tag
+        uses: dawidd6/action-get-tag@v1
       - name: Create Release Issue
         uses: dacbd/create-issue-action@main
         with:
@@ -56,7 +59,7 @@ jobs:
           title: Release
           body: |
             ### Context
-            Version -       `${{ github.ref_name }}`
+            Version -       `${{ steps.tag.outputs.tag }}`
             Workflow name - `${{ github.workflow }}`
       - uses: actions/github-script@v6
         with:
