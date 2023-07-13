@@ -64,6 +64,7 @@
         "@types/react-helmet": "^6.1.5",
         "commitlint": "^17.6.6",
         "conventional-changelog-conventionalcommits": "^6.1.0",
+        "generate-changelog": "^1.8.0",
         "husky": "^8.0.3",
         "jest-html-reporter": "^3.7.0"
     }

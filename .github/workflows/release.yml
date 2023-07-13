@@ -49,12 +49,6 @@ jobs:
     runs-on: ubuntu-latest
     needs: [ install_and_test ]
     steps:
-      - name: Build Changelog
-        id: github_release
-        uses: mikepenz/release-changelog-builder-action@v3
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    
       - name: Create Release Issue
         uses: dacbd/create-issue-action@main
         with:
@@ -80,17 +74,6 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Update CHANGELOG
-        id: changelog
-        uses: requarks/changelog-action@v1
-        with:
-          token: ${{ github.token }}
-          tag: ${{ github.ref_name }}
-
-      - name: Commit CHANGELOG.md
-        uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          branch: master
-          commit_message: 'docs: update CHANGELOG.md for ${{ github.ref_name }} [skip ci]'
-          file_pattern: CHANGELOG.md
-      
+      - name: Changelog
+        uses: scottbrenner/generate-changelog-action@master
+        id: Changelog
