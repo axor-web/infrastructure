@@ -51,19 +51,33 @@ jobs:
       - name: Get tag
         id: tag
         uses: little-core-labs/get-git-tag@v3.0.1
+      - name: Get current date
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
       - name: Create Release Issue
         uses: dacbd/create-issue-action@main
         with:
           token: ${{ github.token }}
-          title: Release
+          title: Release `${{ steps.tag.outputs.tag }}`
+          labels: RELEASE
           body: |
             ### Context
+            Author -        `${{ github.actor }}`
             Version -       `${{ steps.tag.outputs.tag }}`
-            Workflow name - `${{ github.workflow }}`
-      
+            Date -          `${{ steps.date.outputs.date }}`
+
+      - name: Find the last open issue
+        id: last-issue
+        uses: micalevisk/last-issue-action@v2
+        with:
+          state: open
+          # Find the last updated open issue that has these labels:
+          labels: |
+            RELEASE
+
       - if: needs.install_and_test.outputs.exitcode == 0
         name: Close Issue
-        run: gh issue close --comment "Auto-closing issue"
+        run: gh issue close --comment "Auto-closing issue" '${{ steps.last-issue.outputs.issue-number }}'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
